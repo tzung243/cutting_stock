@@ -14,15 +14,16 @@ def file_upload_optimize(request):
     if request.method == "POST":
         form = FileUploadForm(request.POST, request.FILES)
         handle_uploaded_file(request.FILES['file'])
-        print("here")
-        status, cutting_instruction_list, optimal_value = get_cutting_instruction_by_uploading_file()
+        fixed_length, (cutting_instruction_list, optimal_value) = get_cutting_instruction_by_uploading_file()
         return JsonResponse(
-            {'status': status, 'optimal_value': optimal_value, 'cutting_instruction_list': cutting_instruction_list})
+            {'fixed_length': fixed_length, 'optimal_value': optimal_value,
+             'cutting_instruction_list': cutting_instruction_list})
 
 
 def click_optimize(request):
     properties = dict(request.POST)
     print(properties)
-    status, cutting_instruction_list, optimal_value = get_cutting_instruction_by_filling(properties)
+    fixed_length, (cutting_instruction_list, optimal_value) = get_cutting_instruction_by_filling(properties)
     return JsonResponse(
-        {'status': status, 'optimal_value': optimal_value, 'cutting_instruction_list': cutting_instruction_list})
+        {'fixed_length': fixed_length, 'optimal_value': optimal_value,
+         'cutting_instruction_list': cutting_instruction_list})

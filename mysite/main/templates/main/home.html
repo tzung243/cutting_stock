@@ -14,7 +14,7 @@
 <form method="POST" action="upload/" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Optimize</button>
+    <button type="submit" class="save btn btn-default">Optimize</button>
 </form>
 
 <br><br>
@@ -30,11 +30,9 @@
         <tbody>
         <tr>
             <th>Length</th>
-            <th>Quantity</th>
         </tr>
-        <tr class="row_to_clone_a">
+        <tr class="row_a">
             <td><input type="number" min="0" name="avl_l"></td>
-            <td><input type="number" min="1" name="avl_p"></td>
         </tr>
         </tbody>
     </table>

@@ -43,7 +43,7 @@ def gurobi_show(model, output_data, pattern):
 
     optimal_value = model.objVal
     output_data.write("Optimal value gurobi = " + str(optimal_value) + "\n")
-    return model.status, cutting_instruction_list, optimal_value
+    return cutting_instruction_list, optimal_value
 
 
 def solve(pattern: list, s: list, fixed_length: float, types: list, j: int, lowerBound: float):
@@ -91,34 +91,38 @@ def get_frequency_of_types_in_patterns(types, pattern, lengthlist):
 
 def main(func):
     output_data = open(output_file, "w")
-    fixed_length, available_numb, types, numberOfTypes = func
+    fixed_length, types, numberOfTypes = func
     lowerBound = types[len(types) - 1]
     pattern = []
+    # Lấy ra các pattern có thể có của types []
     solve(pattern, [], fixed_length, types, 0, lowerBound)
     print("Possible patterns: ", pattern)
     length_list = len(types)
     A, obj, var = get_frequency_of_types_in_patterns(types, pattern, length_list)
     print("\n\n")
     model = gurobi_solve(obj=obj, A=A, x=var, numberOfType=numberOfTypes)
-    return gurobi_show(model, output_data, pattern)
+    return fixed_length, gurobi_show(model, output_data, pattern)
 
 
+# Dựa vào thuộc tính đã điền vào form để lấy ra thông tin tương ứng
 def get_required_panels_by_filling(properties):
     required = []
     for k, v in properties.items():
         required.append(v[0])
 
+    # Chiều dài thanh cần cắt
     fixed_length = float(required[1])
-    available_numb = int(required[2])
     listRequest = {}
-    # 3 4 - 5 6 - 7 8
-    start = 2
-    for i in range(3, len(required)):
-        if 2 * start >= len(required):
+    # 2 3 - 4 5 - 6 7
+    start = 1
+    for i in range(2, len(required)):
+        if 2 * start + 1 >= len(required):
             break
 
-        m1 = int(required[2 * start - 1])
-        m2 = int(required[2 * start])
+        # types
+        m1 = int(required[2 * start])
+        # quantity
+        m2 = int(required[2 * start + 1])
         if not m1 in listRequest:
             listRequest[m1] = m2
         else:
@@ -126,9 +130,13 @@ def get_required_panels_by_filling(properties):
         start += 1
 
     listRequest = {i: listRequest[i] for i in sorted(listRequest, reverse=True)}
+
+    # Liệt kê các types: vd. 2m, 4m, 6m, 8m
     types = [i for i in listRequest.keys()]
+
+    # Tương ứng với types liệt kê ra số lượng: vd. 6, 8, 3, 7
     numberOfTypes = [i for i in listRequest.values()]
-    return float(fixed_length), available_numb, types, numberOfTypes
+    return float(fixed_length), types, numberOfTypes
 
 
 def get_cutting_instruction_by_filling(properties):
@@ -139,12 +147,14 @@ def get_required_panels_by_uploading_file():
     # Mở file input do người dùng cung cấp
     with open("main/static/upload/input.txt") as file:
         listRequest = {}
-        available_numb = 0
+        numb_of_requests = 0
+
+        # Đọc theo từng dòng
         while line := file.readline().rstrip():
             request = line.split()
             if len(request) == 1:
-                if available_numb == 0:
-                    available_numb = request[0]
+                if numb_of_requests == 0:
+                    numb_of_requests = request[0]
                 else:
                     fixed_length = request[0]
             elif len(request) == 2:
@@ -161,10 +171,10 @@ def get_required_panels_by_uploading_file():
                        for i in sorted(listRequest, reverse=True)}
         types = [i for i in listRequest.keys()]
         numberOfTypes = [i for i in listRequest.values()]
-        print("Length: ", fixed_length, " - available: ", available_numb)
+        print("Length: ", fixed_length, " - requests: ", numb_of_requests)
         print(types)
         print(numberOfTypes)
-    return float(fixed_length), available_numb, types, numberOfTypes
+    return float(fixed_length), types, numberOfTypes
 
 
 def get_cutting_instruction_by_uploading_file():
