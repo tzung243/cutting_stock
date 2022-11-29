@@ -171,9 +171,9 @@ def get_required_panels_by_uploading_file():
                        for i in sorted(listRequest, reverse=True)}
         types = [i for i in listRequest.keys()]
         numberOfTypes = [i for i in listRequest.values()]
-        print("Length: ", fixed_length, " - requests: ", numb_of_requests)
-        print(types)
-        print(numberOfTypes)
+        # print("Length: ", fixed_length, " - requests: ", numb_of_requests)
+        # print(types)
+        # print(numberOfTypes)
     return float(fixed_length), types, numberOfTypes
 
 
