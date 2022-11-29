@@ -37,9 +37,10 @@ def gurobi_show(fixed_length, model, output_data, pattern):
             )
 
             # Json hoàn chỉnh để truy cập vào pattern
-            pattern_dict["name"] = root.varName
-            pattern_dict["value"] = pattern_info
-            cutting_instruction_list.append(pattern_dict)
+            # pattern_dict["name"] = root.varName
+            # pattern_dict["value"] = pattern_info
+            # cutting_instruction_list.append(pattern_dict)
+            cutting_instruction_list.append(pattern_info)
 
     optimal_value = model.objVal
     output_data.write("Optimal value gurobi = " + str(optimal_value) + "\n")

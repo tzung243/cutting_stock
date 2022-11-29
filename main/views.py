@@ -22,6 +22,8 @@ def file_upload_optimize(request):
         # Path to CWD
         cwd = os.getcwd()
         path_template_result = os.path.join(cwd, 'main','templates', 'main', 'result.html')
+        
+        print()
         # Render the result page
         return render(request=request, template_name=path_template_result, context=response_context)
 
