@@ -21,7 +21,7 @@ def gurobi_solve(obj, A, x, numberOfType):  # min obj sub Ax >= b
     return model
 
 
-def gurobi_show(model, output_data, pattern):
+def gurobi_show(fixed_length, model, output_data, pattern):
     output_data.write("Status gurobi: " + str(model.status) + "\n")
     cutting_instruction_list = []
 
@@ -29,7 +29,7 @@ def gurobi_show(model, output_data, pattern):
         root = model.getVars()[i]
         if root.x > 0:
             # Thông tin của mỗi pattern
-            pattern_info = {"number": root.x, "type": pattern[i]}
+            pattern_info = {"number": root.x, "type": pattern[i], "residual": float(fixed_length-sum(pattern[i]))}  # added residual
             pattern_dict = {}
             output_data.write(
                 str(root.varName) + " = " +
@@ -101,7 +101,7 @@ def main(func):
     A, obj, var = get_frequency_of_types_in_patterns(types, pattern, length_list)
     print("\n\n")
     model = gurobi_solve(obj=obj, A=A, x=var, numberOfType=numberOfTypes)
-    return fixed_length, gurobi_show(model, output_data, pattern)
+    return fixed_length, gurobi_show(fixed_length, model, output_data, pattern)
 
 
 # Dựa vào thuộc tính đã điền vào form để lấy ra thông tin tương ứng
@@ -131,12 +131,16 @@ def get_required_panels_by_filling(properties):
 
     listRequest = {i: listRequest[i] for i in sorted(listRequest, reverse=True)}
 
-    # Liệt kê các types: vd. 2m, 4m, 6m, 8m
+    # Liệt kê các types: vd. 8m, 6m, 4m, 2m
     types = [i for i in listRequest.keys()]
 
     # Tương ứng với types liệt kê ra số lượng: vd. 6, 8, 3, 7
     numberOfTypes = [i for i in listRequest.values()]
-    return float(fixed_length), types, numberOfTypes
+
+    fixed_length = float(fixed_length)
+    if fixed_length < types[0]:
+        fixed_length = types[0]
+    return fixed_length, types, numberOfTypes
 
 
 def get_cutting_instruction_by_filling(properties):
@@ -174,7 +178,11 @@ def get_required_panels_by_uploading_file():
         # print("Length: ", fixed_length, " - requests: ", numb_of_requests)
         # print(types)
         # print(numberOfTypes)
-    return float(fixed_length), types, numberOfTypes
+
+    fixed_length = float(fixed_length)
+    if fixed_length < types[0]:
+        fixed_length = types[0]
+    return fixed_length, types, numberOfTypes
 
 
 def get_cutting_instruction_by_uploading_file():
