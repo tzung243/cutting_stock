@@ -37,9 +37,6 @@ def gurobi_show(fixed_length, model, output_data, pattern):
             )
 
             # Json hoàn chỉnh để truy cập vào pattern
-            # pattern_dict["name"] = root.varName
-            # pattern_dict["value"] = pattern_info
-            # cutting_instruction_list.append(pattern_dict)
             cutting_instruction_list.append(pattern_info)
 
     optimal_value = model.objVal
@@ -47,7 +44,7 @@ def gurobi_show(fixed_length, model, output_data, pattern):
     return cutting_instruction_list, optimal_value
 
 
-def solve(pattern: list, s: list, fixed_length: float, types: list, j: int, lowerBound: float):
+def solve(pattern: list, s: list, fixed_length: int, types: list, j: int, lowerBound: float):
     if j == len(types) - 1:
         s_c = s.copy()
         while types[j] <= fixed_length:

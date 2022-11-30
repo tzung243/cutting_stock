@@ -16,9 +16,8 @@ def file_upload_optimize(request):
         handle_uploaded_file(request.FILES['file'])
         fixed_length, (cutting_instruction_list, optimal_value) = get_cutting_instruction_by_uploading_file()
         # Define context for rendering
-        response_context = {'fixed_length': fixed_length, 'optimal_value': optimal_value,
-                            
-             'cutting_instruction_list': cutting_instruction_list}
+        response_context = {'fixed_length': int(fixed_length), 'optimal_value': int(optimal_value),
+             'cutting_instruction_list':  [{'number': int(cutting_instruction['number']), 'type': [ int(x) for x in cutting_instruction['type'] ], 'residual': int(cutting_instruction['residual']) } for cutting_instruction in cutting_instruction_list]}
         # Path to CWD
         cwd = os.getcwd()
         path_template_result = os.path.join(cwd, 'main','templates', 'main', 'result.html')

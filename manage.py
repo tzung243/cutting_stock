@@ -19,5 +19,4 @@ def main():
 
 
 if __name__ == '__main__':
-    os.system("npx tailwindcss -o ./main/static/output.css")
     main()
