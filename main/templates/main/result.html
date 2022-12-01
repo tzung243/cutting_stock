@@ -73,30 +73,31 @@
                 </div>
 
 
-                <div class="flex flex-row space-x-3 space-y-3 w-full mt-4 items-center justify-center">
+                <div class="flex flex-row space-x-3 space-y-3 m-3 items-center justify-center ">
                     <div class="flex w-full ">
                         {% for va in item.type %}
                         <div
-                            class="flex-[{{va}}] flex items-center justify-center border-2 bg-slate-400 border-rose-50 ">
+                            class="flex-[{{va}}] flex items-center justify-center border bg-slate-400 border-gray-300 mx-2 ">
                             <p class="text-white">{{va}}</p>
                         </div>
                         {% endfor %}
                         {% if item.residual != 0 %}
                         <div
-                            class="flex-[{{item.residual}}] flex items-center justify-center  border-2 border-rose-50 bg-pink-300">
-                            <!-- <p>{{item.residual}}</p> -->
+                            class="flex-[{{item.residual}}] flex items-center justify-center  border border-gray-300 bg-gray-200 mx-2 ">
                         </div>
                         {% endif %}
                     </div>
+                    
                 </div>
-               
+              
             </div>
             {% endfor %}
-
+       
+        
         </div>
 
     </div>
-    <footer class="w-full bg-gray-700 flex justify-center items-center h-full">
+    <footer class=" mt-5 w-full bg-gray-700 flex justify-center items-center h-full">
         <main class="lg:w-lg w-full justify-start flex flex-col p-4 items-center">
             <div class="w-full justify-between flex flex-col lg:flex-row items-start">
                 <div class="flex flex-col items-start justify-start space-y-4">

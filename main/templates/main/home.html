@@ -30,11 +30,12 @@
     </header>
     <div>
         <h2>Welcome to our home page</h2>
-        <p>Import your file here:</p>
+        <p>Import your file .txt here:</p>
+    
         <form method="POST" action="upload/" enctype="multipart/form-data">
             <!-- {% csrf_token %} -->
             {{ form.as_p }}
-            <button type="submit" class="save btn btn-default">Optimize</button>
+            <button type="submit" >Optimize</button>
         </form>
 
         <br><br>
