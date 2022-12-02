@@ -109,23 +109,23 @@ def get_required_panels_by_filling(properties):
         required.append(v[0])
 
     # Chiều dài thanh cần cắt
-    fixed_length = float(required[1])
+    fixed_length = float(required[0])
     listRequest = {}
-    # 2 3 - 4 5 - 6 7
+    # 1 2 - 3 4 - 5 6
     start = 1
-    for i in range(2, len(required)):
-        if 2 * start + 1 >= len(required):
+    for i in range(1, len(required)):
+        if start + 1 >= len(required):
             break
 
         # types
-        m1 = int(required[2 * start])
+        m1 = int(required[start])
         # quantity
-        m2 = int(required[2 * start + 1])
+        m2 = int(required[start + 1])
         if not m1 in listRequest:
             listRequest[m1] = m2
         else:
             listRequest[m1] += m2
-        start += 1
+        start += 2
 
     listRequest = {i: listRequest[i] for i in sorted(listRequest, reverse=True)}
 
