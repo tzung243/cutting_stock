@@ -1,177 +1,240 @@
 <!DOCTYPE html>
 
 <head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cutting Stock</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        table,
-        td {
-            border: 1px solid black;
-        }
-    </style>
-
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cutting Stock</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous"
+  />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    table,
+    td {
+      border: 2px solid black;
+      width: 50%;
+      text-align: center;
+    }
+    #available, #required{
+        margin: auto;
+        padding: 10px;
+    }
+  </style>
 </head>
 
 <body>
-    <header class="z-50 sticky top-0 right-0 left-0 w-full h-16 bg-gray-700 flex justify-center items-center">
-        <main class="lg:w-lg w-full justify-between items-center flex flex-row px-4">
-            <a class="flex flex-row justify-center items-end space-x-1" href="/">
-                <p class="text-teal-600 text-3xl font-bold">Cutting</p>
-                <p class="text-teal-500 text-2xl font-bold">Stock</p>
-            </a>
-        </main>
-    </header>
-    <div>
-        <h2>Welcome to our home page</h2>
-        <p>Import your file .txt here:</p>
-    
-        <form method="POST" action="upload/" enctype="multipart/form-data">
-            <!-- {% csrf_token %} -->
-            {{ form.as_p }}
-            <button type="submit" >Optimize</button>
-        </form>
+  <header
+    class="z-50 sticky top-0 right-0 left-0 w-full h-16 bg-gray-700 flex justify-center items-center"
+  >
+    <main
+      class="lg:w-lg w-full justify-between items-center flex flex-row px-4"
+    >
+      <a class="flex flex-row justify-center items-end space-x-1" href="/">
+        <p class="text-teal-600 text-3xl font-bold">Cutting</p>
+        <p class="text-teal-500 text-2xl font-bold">Stock</p>
+      </a>
+    </main>
+  </header>
+  <div>
+    <h2 style="text-align: center; font-size: 35px; font-family: arial">
+      Welcome to our home page
+    </h2>
+    <br /><br />
+    <p>Import your file .txt here:</p>
 
-        <br><br>
-        {# Simple row insert, delete:#}
-        <p>Click the buttons to create and delete row(s) for the table.</p>
+    <form method="POST" action="upload/" enctype="multipart/form-data">
+      <!-- {% csrf_token %} -->
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-info" style="color: black;">
+        Optimize
+      </button>
+    </form>
 
-        <form action="filling_form/" method="post">
-            <!-- {% csrf_token %} -->
-            <div>
-                <h3>Available stock panels </h3>
+    <br /><br />
+    {# Simple row insert, delete:#}
+    {% comment %} <p>Click the buttons to create and delete row(s) for the table.</p> {% endcomment %}
+
+    <form action="filling_form/" method="post">
+      <!-- {% csrf_token %} -->
+      <div>
+        <h3 style="font-size: 25px; font-family: arial">
+          Available stock panels
+        </h3>
+      </div>
+      <table id="available">
+        <tbody>
+          <tr>
+            <th>Length</th>
+          </tr>
+          <tr class="row_a">
+            <td>
+              <input type="number" min="0" name="avl_l" style="width: 100%" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br /><br />
+
+      <div>
+        <h3 style="font-size: 25px; font-family: arial">Required panels</h3>
+      </div>
+
+      <table id="required">
+        <tbody>
+          <tr>
+            <th>Length</th>
+            <th>Quantity</th>
+            <th>Action</th>
+          </tr>
+          <tr class="row_to_clone_r">
+            <td>
+              <input
+                type="number"
+                min="0"
+                name="req[0].length"
+                style="width: 100%"
+              />
+            </td>
+            <td><input type="number" min="1" name="req[0].count" style="width: 100%" /></td>
+            <td>
+              <button class="btn btn-info" onclick="myDeleteFunction()">Delete</button>
+            </td>
+          </tr>
+          <tr class="row_to_clone_r">
+            <td>
+              <input
+                type="number"
+                min="0"
+                name="req[1].length"
+                style="width: 100%"
+              />
+            </td>
+            <td><input type="number" min="1" name="req[1].count" style="width: 100%" /></td>
+            <td>
+              <button class="btn btn-info" onclick="myDeleteFunction()">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <button class="btn btn-info" onclick="addRow(); return false; ">
+          Add Row
+        </button>
+      </div>
+      <br /><br />
+      <input class="btn btn-info" type="submit" value="Optimize" style="color:black;"/>
+    </form>
+
+    <script>
+      function addRow() {
+        var name = "required";
+        var del_but =
+          "<button class='btn btn-info' onclick='myDeleteFunction()'>Delete</button>";
+        var table = document.getElementById(name);
+        var last_index = table.rows.length;
+        var name_length = "req[" + last_index + "].length";
+        var name_quantity = "req[" + last_index + "].count";
+        const input_length =
+          "<input type='number' min='0' name='" +
+          name_length +
+          "' + style = 'width:100%'>";
+        const input_quantity =
+          "<input type='number' min='0' name='" + name_quantity + "' + style = 'width:100%'>";
+
+        var row = table.insertRow(last_index);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+
+        cell1.innerHTML = input_length;
+        cell2.innerHTML = input_quantity;
+        cell3.innerHTML = del_but;
+      }
+
+      function myDeleteFunction() {
+        var name = "required";
+        var index,
+          table = document.getElementById(name);
+
+        for (var i = 1; i < table.rows.length; i++) {
+          table.rows[i].cells[2].onclick = function () {
+            index = this.parentElement.rowIndex;
+            table.deleteRow(index);
+          };
+        }
+      }
+    </script>
+  </div>
+  <footer class="w-full bg-gray-700 flex justify-center items-center h-full">
+    <main class="lg:w-lg w-full justify-start flex flex-col p-4 items-center">
+      <div class="w-full justify-between flex flex-col lg:flex-row items-start">
+        <div class="flex flex-col items-start justify-start space-y-4">
+          <p
+            class="font-bold text-2xl text-white border-dashed border-b-2 border-rose-400"
+          >
+            Contact
+          </p>
+          <div
+            class="flex flex-row justify-start items-center text-white space-x-4"
+          >
+            <span
+              class="flex justify-center items-center rounded-full w-8 h-8 bg-white"
+            >
+              <i class="fa-solid fa-location-dot text-gray-500 text-lg"></i>
+            </span>
+            <div class="flex flex-col justify-start items-start">
+              <p class="text-base font-semibold">Location</p>
+              <p class="text-sm font-light">
+                334 Đ.Nguyễn Trãi, Thanh Xuân Trung, Thanh Xuân
+              </p>
             </div>
-            <table id="available">
-                <tbody>
-                    <tr>
-                        <th>Length</th>
-                    </tr>
-                    <tr class="row_a">
-                        <td><input type="number" min="0" name="avl_l"></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <br><br>
-
-            <div>
-                <h3>Required panels </h3>
+          </div>
+          <div
+            class="flex flex-row justify-start items-center text-white space-x-4"
+          >
+            <span
+              class="flex justify-center items-center rounded-full w-8 h-8 bg-white"
+            >
+              <i class="fa-solid fa-envelope text-gray-500 text-lg"></i>
+            </span>
+            <div class="flex flex-col justify-start items-start">
+              <p class="text-base font-semibold">Email</p>
+              <a
+                class="text-sm font-light"
+                href="mailto:thuydungle243@gmail.com"
+              >
+                Cutting Stock Problem
+              </a>
             </div>
-
-            <table id="required">
-                <tbody>
-                    <tr>
-                        <th>Length</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
-                    </tr>
-                    <tr class="row_to_clone_r">
-                        <td><input type="number" min="0" name="req[0].length"></td>
-                        <td><input type="number" min="1" name="req[0].count"></td>
-                        <td>
-                            <button type="button" onclick="myDeleteFunction()">Delete</button>
-                        </td>
-                    </tr>
-                    <tr class="row_to_clone_r">
-                        <td><input type="number" min="0" name="req[1].length"></td>
-                        <td><input type="number" min="1" name="req[1].count"></td>
-                        <td>
-                            <button type="button" onclick="myDeleteFunction()">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div>
-                <button onclick="addRow(); return false; ">Add Row</button>
+          </div>
+          <div
+            class="flex flex-row justify-start items-center text-white space-x-4"
+          >
+            <span
+              class="flex justify-center items-center rounded-full w-8 h-8 bg-white"
+            >
+              <i class="fa-solid fa-phone text-gray-500 text-lg"></i>
+            </span>
+            <div class="flex flex-col justify-start items-start">
+              <p class="text-base font-semibold">Phone Number</p>
+              <p class="text-sm font-light text-[#11111]">+8412 3346789</p>
             </div>
-            <br><br>
-            <input type="submit" value="Optimize">
-        </form>
-
-        <script>
-            function addRow() {
-                var name = 'required';
-                var del_but = "<button type='button' onclick='myDeleteFunction()'>Delete</button>";
-                var table = document.getElementById(name);
-                var last_index = table.rows.length;
-                var name_length = "req[" + last_index + "].length"
-                var name_quantity = "req[" + last_index + "].count"
-                const input_length = "<input type='number' min='0' name='" + name_length + "'>";
-                const input_quantity = "<input type='number' min='0' name='" + name_quantity + "'>";
-
-                var row = table.insertRow(last_index);
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                var cell3 = row.insertCell(2);
-
-                cell1.innerHTML = input_length;
-                cell2.innerHTML = input_quantity;
-                cell3.innerHTML = del_but;
-            }
-
-            function myDeleteFunction() {
-                var name = 'required';
-                var index, table = document.getElementById(name);
-
-                for (var i = 1; i < table.rows.length; i++) {
-                    table.rows[i].cells[2].onclick = function () {
-                        index = this.parentElement.rowIndex;
-                        table.deleteRow(index);
-                    };
-                }
-            }
-        </script>
-    </div>
-    <footer class="w-full bg-gray-700 flex justify-center items-center h-full">
-        <main class="lg:w-lg w-full justify-start flex flex-col p-4 items-center">
-            <div class="w-full justify-between flex flex-col lg:flex-row items-start">
-                <div class="flex flex-col items-start justify-start space-y-4">
-                    <p class="font-bold text-2xl text-white border-dashed border-b-2 border-rose-400">
-                        Contact
-                    </p>
-                    <div class="flex flex-row justify-start items-center text-white space-x-4">
-                        <span class="flex justify-center items-center rounded-full w-8 h-8 bg-white">
-                            <i class="fa-solid fa-location-dot text-gray-500 text-lg"></i>
-                        </span>
-                        <div class="flex flex-col justify-start items-start">
-                            <p class="text-base font-semibold">Location</p>
-                            <p class="text-sm font-light">
-                                334 Đ.Nguyễn Trãi, Thanh Xuân Trung, Thanh Xuân
-                            </p>
-                        </div>
-                    </div>
-                    <div class="flex flex-row justify-start items-center text-white space-x-4">
-                        <span class="flex justify-center items-center rounded-full w-8 h-8 bg-white">
-                            <i class="fa-solid fa-envelope text-gray-500 text-lg"></i>
-                        </span>
-                        <div class="flex flex-col justify-start items-start">
-                            <p class="text-base font-semibold">Email</p>
-                            <a class="text-sm font-light" href="mailto:thuydungle243@gmail.com">
-                                Cutting Stock Problem
-                            </a>
-                        </div>
-                    </div>
-                    <div class="flex flex-row justify-start items-center text-white space-x-4">
-                        <span class="flex justify-center items-center rounded-full w-8 h-8 bg-white">
-                            <i class="fa-solid fa-phone text-gray-500 text-lg"></i>
-                        </span>
-                        <div class="flex flex-col justify-start items-start">
-                            <p class="text-base font-semibold">Phone Number</p>
-                            <p class="text-sm font-light text-[#11111]">
-                                +8412 3346789
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </main>
-    </footer>
+          </div>
+        </div>
+      </div>
+    </main>
+  </footer>
 </body>

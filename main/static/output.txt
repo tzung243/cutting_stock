@@ -1,5 +1,0 @@
-Status gurobi: 2
-variable[x1] = 57.0	[42]
-variable[x2] = 36.0	[45]
-variable[x3] = 97.0	[57]
-Optimal value gurobi = 190.0
