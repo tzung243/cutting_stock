@@ -5,204 +5,198 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cutting Stock</title>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+  <title>Cutting Stock Problem</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
     integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-    crossorigin="anonymous"
-  />
-  <link rel="stylesheet" href=
-"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity=
-"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    table,
-    td {
-      border: 2px solid black;
-      width: 50%;
-      text-align: center;
-    }
-    #available, #required{
-        margin: auto;
-        padding: 10px;
+    #available,
+    #required {
+      margin: auto;
+      padding: 10px;
     }
   </style>
 </head>
 
 <body>
-  <header
-    class="z-50 sticky top-0 right-0 left-0 w-full h-16 bg-gray-700 flex justify-center items-center"
-  >
-    <main
-      class="lg:w-lg w-full justify-between items-center flex flex-row px-4"
-    >
+
+  <header class="z-50 sticky top-0 right-0 left-0 w-full h-16 bg-gray-700 flex justify-center items-center">
+    <main class="lg:w-lg w-full justify-between items-center flex flex-row px-4">
       <a class="flex flex-row justify-center items-end space-x-1" href="/">
         <p class="text-teal-600 text-3xl font-bold">Cutting</p>
         <p class="text-teal-500 text-2xl font-bold">Stock</p>
       </a>
     </main>
   </header>
-  <div>
-      <h2 style="text-align: center; font-size: 35px; font-family: arial">
-          Welcome to our home page
-      </h2>
-  </div>
-      <br/><br/>
-      <div>
-          <h3 style="font-size: 25px; font-family: arial">Import your file .txt here</h3> <br/>
+  <div class="flex w-full justify-center">
+    <div class=" flex flex-col w-[1024px]">
+      <p class=" text-5xl text-center">Welcome to our home page</p>
+      <p> Try our 1d cutting optimizer to find how to cut linear material like lumber, pipes, tubes, bars or
+        beams with minimal material waste. Just specify material length and enter required parts
+        lengths and quantities. Our linear cut calculator will find the best possible solution.</p>
+      <div class="flex items-center justify-between space-x-2 mt-8 border-violet-300 border-2">
+        <div class="flex flex-col justify-center items-start">
+          <p class=" mx-3 font-bold "> Import your file.txt here</p>
           <!-- Button to launch a modal -->
-          <p><b>Click on the button to see image: </b>
-              <button class="btn btn-info" data-toggle="modal"
-                      data-target="#exampleModal">See format</button>
+          <p class=" mx-3 font-bold ">Click on the button to see format input text:
+            <button
+              class=" m-2 h-10 border-[1px] text-green-400 border-green-400 hover:!bg-green-400 hover:text-white text-center duration-300 transition-all bg-white px-4 font-normal text-base rounded-md outline-none hover:ring-4 hover:ring-green-200"
+              data-toggle="modal" data-target="#exampleModal"> Format</button>
           </p>
-          <br/>
-      </div>
+          <form class="mx-3" method="POST" action="upload/" enctype="multipart/form-data">
+            <!-- {% csrf_token %} -->
+            {{ form.as_p }}
+            <button type="submit"
+              class="h-10 border-[1px] text-green-400 border-green-400 hover:!bg-green-400 hover:text-white text-center duration-300 transition-all bg-white px-4 font-normal text-base rounded-md outline-none hover:ring-4 hover:ring-green-200">
+              <p>Optimize</p>
+            </button>
 
-    <form method="POST" action="upload/" enctype="multipart/form-data">
-      <!-- {% csrf_token %} -->
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-info" style="color: black;">
-        Optimize
-      </button>
-    </form>
+          </form>
 
-      <!-- Modal -->
-    <div class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
 
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
 
                 <!-- Add image inside the body of modal -->
                 <div class="modal-body">
-                    <img id="image" src= "{% static 'pics/format.jpg' %}"
-                        alt="Click on button" />
+                  <img id="image" src="{% static 'pics/format.jpg' %}" alt="Click on button" />
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-secondary"
-                        data-dismiss="modal">
-                        Close
-                </button>
+                  <button data-dismiss="modal">
+                    Close
+                  </button>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+        <div class="flex-1 flex items-center justify-center">
+          <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_lyw2wdhp.json" background="transparent"
+            speed="1" style="height: 200px; width: 200px;" loop autoplay>
+          </lottie-player>
+        </div>
+      </div>
+      {# Simple row insert, delete:#}
+      {% comment %} <p>Click the buttons to create and delete row(s) for the table.</p> {% endcomment %}
+
+      <form action="filling_form/" method="post" class="w-full space-y-2 py-4">
+        <!-- {% csrf_token %} -->
+        <div class="w-full flex-col flex justify-start items-start border-[1px] border-gray-300 rounded-md bg-white">
+          <h3 class="font-bold text-xl text-gray-500 p-4 border-b-[1px] border-gray-300 w-full text-start">
+            Available stock panel
+          </h3>
+          <div class="flex w-full justify-start items-start flex-col space-y-2">
+            <p class="ml-4 font-semibold text-gray-400 text-lg mt-2">Length</p>
+            <input type="number" min="0" name="avl_l" value="1" id="available__length"
+              class="mx-4 mb-4 h-12 w-96 p-2 rounded-md border-[1px] border-gray-300 outline-none hover:border-blue-300 duration-300 transition-all hover:ring-4 hover:ring-blue-200 text-gray-500 font-semibold text-base" />
+          </div>
+        </div>
+        <div
+          class="w-full flex-col flex justify-start items-start border-[1px] border-gray-300 rounded-md bg-white mt-4">
+          <h3 class="font-bold text-xl text-gray-500 p-4">Required panels</h3>
+          <table class="w-full bg-white shadow-sm drop-shadow-sm duration-300 transition-all" id="required">
+            <tbody class="bg-white">
+              <tr class="border-y-[1px] border-gray-300 bg-gray-50">
+                <th class="px-4 py-3 font-semibold text-gray-400 text-lg">
+                  <p class="font-semibold text-gray-400 text-lg ">Length</p>
+                </th>
+                <th class="px-4 py-3 font-semibold text-gray-400 text-lg">
+                  <p class="font-semibold text-gray-400 text-lg ">Quantity</p>
+                </th>
+                <th class="px-4 py-3">
+                  <p class="font-semibold text-gray-400 text-lg ">Action</p>
+                </th>
+              </tr>
+              <tr class="border-y-[1px] border-gray-300 ">
+                <td class="px-4 py-2">
+                  <input type="number" min="0" name="req[0].length" required=true
+                    class="h-12 w-full p-2 rounded-md border-[1px] border-gray-300 outline-none hover:border-blue-300 duration-300 transition-all hover:ring-4 hover:ring-blue-200 text-gray-500 font-semibold text-base" />
+                </td>
+                <td class="px-4 py-2">
+                  <input type="number" min="1" name="req[0].count" required=true
+                    class="h-12 w-full p-2 rounded-md border-[1px] border-gray-300 outline-none hover:border-blue-300 duration-300 transition-all hover:ring-4 hover:ring-blue-200 text-gray-500 font-semibold text-base" />
+                </td>
+                <td class="px-4 py-2">
+                  <button
+                    class="h-12 text-center border-[1px] rounded-md text-red-500 border-red-500 hover:!bg-red-500 hover:text-white duration-300 transition-all bg-white px-3 py-1 font-normal text-base hover:ring-4 hover:ring-red-200"
+                    type="button" onclick="myDeleteFunction()">Delete</button>
+                </td>
+              </tr>
+              <tr class="border-y-[1px] border-gray-300">
+                <td class="px-4 py-2">
+                  <input type="number" min="0" name="req[1].length" required=true
+                    class="h-12  w-full p-2 rounded-md border-[1px] border-gray-300 outline-none hover:border-blue-300 duration-300 transition-all hover:ring-4 hover:ring-blue-200 text-gray-500 font-semibold text-base" />
+                </td>
+                <td class="px-4 py-2"><input type="number" min="1" name="req[1].count" required=true
+                    class="h-12  w-full p-2 rounded-md border-[1px] border-gray-300 outline-none hover:border-blue-300 duration-300 transition-all hover:ring-4 hover:ring-blue-200 text-gray-500 font-semibold text-base" />
+                </td>
+                <td class="px-4 py-2">
+                  <button
+                    class="h-12 text-center border-[1px] rounded-md text-red-500 border-red-500 hover:!bg-red-500 hover:text-white duration-300 transition-all bg-white px-3 py-1 font-normal text-base hover:ring-4 hover:ring-red-200"
+                    type="button" onclick="myDeleteFunction()">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="flex items-end justify-end w-full flex-col space-y-4 p-4">
+            <div class="flex flex-row items-end justify-end space-x-2">
+              <input
+                class="h-12 px-2 text-center w-20 border-[1px] border-gray-300 rounded-md outline-none text-gray-500 font-semibold text-base"
+                type="number" name="quantity__row" id="quantity__row" min="0" value="1">
+              <button
+                class="h-12 border-[1px] text-blue-400 border-blue-400 hover:!bg-blue-400 hover:text-white text-center duration-300 transition-all bg-white px-4 font-normal text-base rounded-md outline-none hover:ring-4 hover:ring-blue-200"
+                id="add__row" type="button">
+                Add Row
+              </button>
+            </div>
+
+            <button
+              class="h-12 border-[1px] text-green-400 border-green-400 hover:!bg-green-400 hover:text-white text-center duration-300 transition-all bg-white px-4 font-normal text-base rounded-md outline-none hover:ring-4 hover:ring-green-200"
+              type="submit">
+              Optimize
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
 
-    <!-- Adding scripts to use bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity=
-"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous">
-    </script>
-    <script src=
-"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity=
-"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous">
-    </script>
-    <script src=
-"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity=
-"sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous">
-    </script>
-    <br /><br />
+  </div>
 
-    {# Simple row insert, delete:#}
-    {% comment %} <p>Click the buttons to create and delete row(s) for the table.</p> {% endcomment %}
+  </div>
 
-    <form action="filling_form/" method="post">
-      <!-- {% csrf_token %} -->
-      <div>
-        <h3 style="font-size: 25px; font-family: arial">
-          Available stock panels
-        </h3>
-      </div>
-      <table id="available">
-        <tbody>
-          <tr>
-            <th>Length</th>
-          </tr>
-          <tr class="row_a">
-            <td>
-              <input type="number" min="0" name="avl_l" style="width: 100%" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
 
-      <br /><br />
 
-      <div>
-        <h3 style="font-size: 25px; font-family: arial">Required panels</h3>
-      </div>
 
-      <table id="required">
-        <tbody>
-          <tr>
-            <th>Length</th>
-            <th>Quantity</th>
-            <th>Action</th>
-          </tr>
-          <tr class="row_to_clone_r">
-            <td>
-              <input
-                type="number"
-                min="0"
-                name="req[0].length"
-                style="width: 100%"
-              />
-            </td>
-            <td><input type="number" min="1" name="req[0].count" style="width: 100%" /></td>
-            <td>
-              <button class="btn btn-info" onclick="myDeleteFunction()">Delete</button>
-            </td>
-          </tr>
-          <tr class="row_to_clone_r">
-            <td>
-              <input
-                type="number"
-                min="0"
-                name="req[1].length"
-                style="width: 100%"
-              />
-            </td>
-            <td><input type="number" min="1" name="req[1].count" style="width: 100%" /></td>
-            <td>
-              <button class="btn btn-info" onclick="myDeleteFunction()">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div>
-        <button class="btn btn-info" onclick="addRow(); return false; ">
-          Add Row
-        </button>
-      </div>
-      <br /><br />
-      <input class="btn btn-info" type="submit" value="Optimize" style="color:black;"/>
-    </form>
+  <script>
 
-    <script>
+    function myDeleteFunction() {
+      var name = "required";
+      var index,
+        table = document.getElementById(name);
+
+      for (var i = 1; i < table.rows.length; i++) {
+        table.rows[i].cells[2].onclick = function () {
+          index = this.parentElement.rowIndex;
+          table.deleteRow(index);
+        };
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+
       function addRow() {
         var name = "required";
         var del_but =
-          "<button class='btn btn-info' onclick='myDeleteFunction()'>Delete</button>";
+          "<button class='h-12 text-center border-[1px] rounded-md text-red-500 border-red-500 hover:!bg-red-500 hover:text-white duration-300 transition-all bg-white px-3 py-1 font-normal text-base hover:ring-4 hover:ring-red-200' onclick='myDeleteFunction()' type='button'>Delete</button>";
         var table = document.getElementById(name);
         var last_index = table.rows.length;
         var name_length = "req[" + last_index + "].length";
@@ -210,49 +204,64 @@
         const input_length =
           "<input type='number' min='0' name='" +
           name_length +
-          "' style = 'width:100%'>";
+          "' class='h-12  w-full p-2 rounded-md border-[1px] border-gray-300 outline-none hover:border-blue-300 duration-300 transition-all hover:ring-4 hover:ring-blue-200 text-gray-500 font-semibold text-base' required=true />";
         const input_quantity =
-          "<input type='number' min='0' name='" + name_quantity + "' style = 'width:100%'>";
-
+          "<input type='number' min='0' name='" + name_quantity + "' class='h-12 w-full p-2 rounded-md border-[1px] border-gray-300 outline-none hover:border-blue-300 duration-300 transition-all hover:ring-4 hover:ring-blue-200 text-gray-500 font-semibold text-base' required=true/>";
         var row = table.insertRow(last_index);
+        if (row) {
+          row.classList.add("border-y-[1px]", "border-gray-300")
+        }
         var cell1 = row.insertCell(0);
+        if (cell1) {
+          cell1.classList.add("px-4", "py-2")
+        }
         var cell2 = row.insertCell(1);
+        if (cell2) {
+          cell2.classList.add("px-4", "py-2")
+        }
         var cell3 = row.insertCell(2);
+        if (cell3) {
+          cell3.classList.add("px-4", "py-2")
+        }
+
+
 
         cell1.innerHTML = input_length;
         cell2.innerHTML = input_quantity;
         cell3.innerHTML = del_but;
       }
 
-      function myDeleteFunction() {
-        var name = "required";
-        var index,
-          table = document.getElementById(name);
-
-        for (var i = 1; i < table.rows.length; i++) {
-          table.rows[i].cells[2].onclick = function () {
-            index = this.parentElement.rowIndex;
-            table.deleteRow(index);
-          };
+      document.getElementById("add__row").addEventListener("click", (event) => {
+        var quantity = document.getElementById("quantity__row").value;
+        for (var i = 0; i < parseInt(quantity); i += 1) {
+          addRow();
         }
-      }
+      });
+
+
+    })
+  </script>
+
+  <!-- Adding scripts to use bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>
-  </div>
-  <footer class="w-full bg-gray-700 flex justify-center items-center h-full">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+
+  <footer class=" mt-5 w-full bg-gray-700 flex justify-center items-center h-full">
     <main class="lg:w-lg w-full justify-start flex flex-col p-4 items-center">
       <div class="w-full justify-between flex flex-col lg:flex-row items-start">
         <div class="flex flex-col items-start justify-start space-y-4">
-          <p
-            class="font-bold text-2xl text-white border-dashed border-b-2 border-rose-400"
-          >
+          <p class="font-bold text-2xl text-white border-dashed border-b-2 border-rose-400">
             Contact
           </p>
-          <div
-            class="flex flex-row justify-start items-center text-white space-x-4"
-          >
-            <span
-              class="flex justify-center items-center rounded-full w-8 h-8 bg-white"
-            >
+          <div class="flex flex-row justify-start items-center text-white space-x-4">
+            <span class="flex justify-center items-center rounded-full w-8 h-8 bg-white">
               <i class="fa-solid fa-location-dot text-gray-500 text-lg"></i>
             </span>
             <div class="flex flex-col justify-start items-start">
@@ -262,30 +271,19 @@
               </p>
             </div>
           </div>
-          <div
-            class="flex flex-row justify-start items-center text-white space-x-4"
-          >
-            <span
-              class="flex justify-center items-center rounded-full w-8 h-8 bg-white"
-            >
+          <div class="flex flex-row justify-start items-center text-white space-x-4">
+            <span class="flex justify-center items-center rounded-full w-8 h-8 bg-white">
               <i class="fa-solid fa-envelope text-gray-500 text-lg"></i>
             </span>
             <div class="flex flex-col justify-start items-start">
               <p class="text-base font-semibold">Email</p>
-              <a
-                class="text-sm font-light"
-                href="mailto:thuydungle243@gmail.com"
-              >
+              <a class="text-sm font-light" href="mailto:thuydungle243@gmail.com">
                 Cutting Stock Problem
               </a>
             </div>
           </div>
-          <div
-            class="flex flex-row justify-start items-center text-white space-x-4"
-          >
-            <span
-              class="flex justify-center items-center rounded-full w-8 h-8 bg-white"
-            >
+          <div class="flex flex-row justify-start items-center text-white space-x-4">
+            <span class="flex justify-center items-center rounded-full w-8 h-8 bg-white">
               <i class="fa-solid fa-phone text-gray-500 text-lg"></i>
             </span>
             <div class="flex flex-col justify-start items-start">
@@ -297,4 +295,7 @@
       </div>
     </main>
   </footer>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+
 </body>

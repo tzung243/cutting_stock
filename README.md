@@ -1,9 +1,10 @@
 # Cutting Stock 
 
+
 ## Please! Install Package of Project
 
 ```sh
-yarn install
+pip install -r requirements.txt
 ```
 
 ## Run project 
