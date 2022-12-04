@@ -48,6 +48,8 @@
               class=" m-2 h-10 border-[1px] text-green-400 border-green-400 hover:!bg-green-400 hover:text-white text-center duration-300 transition-all bg-white px-4 font-normal text-base rounded-md outline-none hover:ring-4 hover:ring-green-200"
               data-toggle="modal" data-target="#exampleModal"> Format</button>
           </p>
+{#            Dưới đây là form từ be, các phương thức khác GET cần csrf_token, như một cơ chế giúp ngăn chặn tấn công csrf.#}
+{#            Sau khi file đc tải lên, submit thì sẽ gọi đến /upload và được xử lý tiếp dựa theo controller#}
           <form class="mx-3" method="POST" action="upload/" enctype="multipart/form-data">
             <!-- {% csrf_token %} -->
             {{ form.as_p }}
@@ -55,7 +57,6 @@
               class="h-10 border-[1px] text-green-400 border-green-400 hover:!bg-green-400 hover:text-white text-center duration-300 transition-all bg-white px-4 font-normal text-base rounded-md outline-none hover:ring-4 hover:ring-green-200">
               <p>Optimize</p>
             </button>
-
           </form>
 
           <!-- Modal -->
@@ -88,6 +89,7 @@
       {# Simple row insert, delete:#}
       {% comment %} <p>Click the buttons to create and delete row(s) for the table.</p> {% endcomment %}
 
+{#        Nếu không dùng file thì có thể cung cấp dữ liệu cho web để xử lý tính toán#}
       <form action="filling_form/" method="post" class="w-full space-y-2 py-4">
         <!-- {% csrf_token %} -->
         <div class="w-full flex-col flex justify-start items-start border-[1px] border-gray-300 rounded-md bg-white">
@@ -164,6 +166,7 @@
               type="submit">
               Optimize
             </button>
+{#              Điền xong form, submit dữ liệu để bắt đầu xử lý, nó sẽ gọi đến path filling_form đã khai báo ở trên và thực hiện tiếp dựa theo controller. #}
           </div>
         </div>
       </form>

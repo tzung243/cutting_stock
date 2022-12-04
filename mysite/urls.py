@@ -18,6 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("main.controller")),
+    path('', include("main.controller")),   # Chuyển hướng các request tới các url cho controller ở package main.
 ]
 

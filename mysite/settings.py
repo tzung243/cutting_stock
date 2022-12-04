@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main',
+    'main',     # Khai báo rằng package main cũng là một app trong chương trình
 ]
 
 MIDDLEWARE = [
@@ -116,6 +116,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 # {% load static %}
+# Khai báo nơi lưu các file static cho hệ thống
 STATIC_URL = 'static/'
 
 # Default primary key field type
